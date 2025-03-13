@@ -12,8 +12,10 @@ function App() {
   });
   return (
     <QueryClientProvider client={queryClient}>
-      <Header />
-      <Search />
+      <div className="min-h-screen">
+        <Header />
+        <Search />
+      </div>
     </QueryClientProvider>
   );
 }

@@ -1,4 +1,4 @@
-type Highlight = {
+export type Highlight = {
   BeginOffset: number;
   EndOffset: number;
 };
@@ -9,6 +9,8 @@ type DocumentText = {
 };
 
 type ResultItem = {
+  Id: string;
+  Type: string;
   DocumentId: string;
   DocumentTitle: DocumentText;
   DocumentExcerpt: DocumentText;
