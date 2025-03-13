@@ -6,3 +6,10 @@ export const getResult = async () => {
   );
   return res.data;
 };
+
+export const getSuggestion = async () => {
+  const res = await axios.get(
+    "https://gist.githubusercontent.com/yuhong90/b5544baebde4bfe9fe2d12e8e5502cbf/raw/e026dab444155edf2f52122aefbb80347c68de86/suggestion.json"
+  );
+  return res.data;
+};
