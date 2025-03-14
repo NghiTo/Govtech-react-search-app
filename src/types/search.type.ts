@@ -5,12 +5,12 @@ export type Highlight = {
 
 type DocumentText = {
   Text: string;
-  Highlights: Highlight[];
+  Highlights?: Highlight[];
 };
 
 type ResultItem = {
-  Id: string;
-  Type: string;
+  Id?: string;
+  Type?: string;
   DocumentId: string;
   DocumentTitle: DocumentText;
   DocumentExcerpt: DocumentText;
@@ -18,8 +18,8 @@ type ResultItem = {
 };
 
 export type SearchResult = {
-  TotalNumberOfResults: number;
+  TotalNumberOfResults?: number;
   Page: number;
-  PageSize: number;
+  PageSize?: number;
   ResultItems: ResultItem[];
 };
