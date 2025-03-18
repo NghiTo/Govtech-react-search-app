@@ -35,9 +35,9 @@ const Result: React.FC<ResultProps> = ({ searchResult, highlightKey }) => {
   );
 
   return (
-    <div className="flex flex-col gap-12 px-6 sm:px-12 md:px-24 lg:px-40 py-12">
+    <div className="flex flex-col gap-12 px-6 sm:px-12 md:px-24 lg:px-40 py-12 max-w-full overflow-x-hidden">
       {filteredResults?.length > 0 && (
-        <p className="text-[#282828] font-semibold text-2xl">
+        <p className="text-[#282828] font-semibold text-2xl break-words">
           {`Showing ${filteredResults?.length > 0 ? searchResult.Page : 0} - ${
             filteredResults.length
           } of ${filteredResults?.length} results`}
@@ -46,13 +46,15 @@ const Result: React.FC<ResultProps> = ({ searchResult, highlightKey }) => {
       {filteredResults?.length > 0 ? (
         filteredResults?.map((item) => (
           <div key={item.DocumentId} className="flex flex-col gap-3">
-            <h3 className="text-[#1c76d5] text-2xl font-medium">
+            <h3 className="text-[#1c76d5] text-2xl font-medium break-words">
               {getHighlightedText(item.DocumentTitle.Text, highlightKey)}
             </h3>
-            <p className="text-[#282828]">
+            <p className="text-[#282828] break-words">
               {getHighlightedText(item.DocumentExcerpt.Text, highlightKey)}
             </p>
-            <p className="text-[#686868]">{item.DocumentURI}</p>
+            <p className="text-[#686868] break-all whitespace-normal">
+              {item.DocumentURI}
+            </p>
           </div>
         ))
       ) : (

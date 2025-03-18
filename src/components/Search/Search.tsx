@@ -115,7 +115,7 @@ const Search = () => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <div className="shadow-md py-12 px-6 sm:px-12 md:px-24 lg:px-40">
         <form
           onSubmit={handleSubmit}
