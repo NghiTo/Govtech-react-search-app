@@ -152,8 +152,7 @@ const Search = () => {
                     onMouseEnter={() => setSelectedIndex(index)}
                     onClick={() => {
                       setInputField(suggestion);
-                      setShowSuggestions(false);
-                      mutate();
+                      executeSearch();
                     }}
                   >
                     <span
