@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Header from "./components/Header/Header";
-import Search from "./components/Search/Search";
+import { RouterProvider } from "react-router-dom";
+import router from "./AppRouter";
 
 function App() {
   const queryClient = new QueryClient({
@@ -12,10 +12,7 @@ function App() {
   });
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen">
-        <Header />
-        <Search />
-      </div>
+      <RouterProvider router={router}></RouterProvider>
     </QueryClientProvider>
   );
 }
