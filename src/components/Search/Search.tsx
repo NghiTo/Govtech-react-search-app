@@ -13,7 +13,10 @@ const Search = () => {
   const [highlightKey, setHighlightKey] = useState("");
   const [inputField, setInputField] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [mutationError, setMutationError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionBoxRef = useRef<HTMLDivElement>(null);
 
@@ -23,30 +26,52 @@ const Search = () => {
       setSearchResult(res);
       setShowSuggestions(false);
       setHighlightKey(inputField);
+      setMutationError(null);
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        setMutationError(error.message);
+      } else {
+        setMutationError("Something went wrong. Please check your network.");
+      }
+      setIsSubmitting(false);
     },
   });
 
-  const { data, refetch } = useQuery<Suggestions>({
+  const {
+    data,
+    refetch,
+    isError: isSuggestionError,
+    error: suggestionError,
+  } = useQuery<Suggestions>({
     queryKey: ["suggestions"],
     queryFn: getSuggestion,
     enabled: false,
   });
+
+  const executeSearch = () => {
+    setShowSuggestions(false);
+    setIsSubmitting(true);
+    inputRef.current?.blur();
+    mutate();
+  };
 
   useEffect(() => {
     if (inputField.length === 0) {
       setShowSuggestions(false);
       return;
     }
-
+    if (isSubmitting) return;
     const timer = setTimeout(() => {
       refetch();
       setShowSuggestions(true);
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [inputField, refetch]);
+  }, [inputField, refetch, isSubmitting]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsSubmitting(false);
     setInputField(e.target.value);
     setSelectedIndex(null);
   };
@@ -58,7 +83,7 @@ const Search = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutate();
+    executeSearch();
   };
 
   const handleClear = () => {
@@ -69,6 +94,13 @@ const Search = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (selectedIndex !== null) {
+        setInputField(filteredSuggestions[selectedIndex]);
+      }
+      executeSearch();
+    }
+
     if (!filteredSuggestions.length) return;
 
     if (e.key === "ArrowDown") {
@@ -79,12 +111,6 @@ const Search = () => {
       setSelectedIndex((prev) =>
         prev === null || prev === 0 ? filteredSuggestions.length - 1 : prev - 1
       );
-    } else if (e.key === "Enter") {
-      if (selectedIndex !== null) {
-        setInputField(filteredSuggestions[selectedIndex]);
-        setShowSuggestions(false);
-        mutate();
-      }
     }
   };
 
@@ -153,6 +179,17 @@ const Search = () => {
         </form>
       </div>
       {isPending && <LoadingSpinner />}
+      {mutationError && (
+        <div className="text-center text-red-500 mt-4">{mutationError}</div>
+      )}
+      {isSuggestionError && (
+        <div className="text-center text-red-500 mt-2">
+          Failed to load suggestions.{" "}
+          {suggestionError instanceof Error
+            ? suggestionError.message
+            : "Please check your connection."}
+        </div>
+      )}
       {searchResult && !isPending && (
         <Result searchResult={searchResult} highlightKey={highlightKey} />
       )}
