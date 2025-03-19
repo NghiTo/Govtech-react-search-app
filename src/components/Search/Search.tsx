@@ -18,7 +18,6 @@ const Search = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [mutationError, setMutationError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const suggestionBoxRef = useRef<HTMLDivElement>(null);
 
   const { mutate, isPending } = useMutation({
     mutationFn: getResult,
@@ -104,10 +103,12 @@ const Search = () => {
     if (!filteredSuggestions.length) return;
 
     if (e.key === "ArrowDown") {
+      e.preventDefault();
       setSelectedIndex((prev) =>
         prev === null || prev === filteredSuggestions.length - 1 ? 0 : prev + 1
       );
     } else if (e.key === "ArrowUp") {
+      e.preventDefault();
       setSelectedIndex((prev) =>
         prev === null || prev === 0 ? filteredSuggestions.length - 1 : prev - 1
       );
@@ -116,7 +117,7 @@ const Search = () => {
 
   return (
     <div className="w-full h-full flex flex-col flex-grow">
-      <div className="shadow-md py-12 px-6 sm:px-12 md:px-24 lg:px-40">
+      <div className="shadow-md py-12 px-6 sm:px-12 md:px-24 lg:px-40 sticky top-0 bg-white">
         <form
           onSubmit={handleSubmit}
           className="border border-gray-400 rounded-md w-full flex flex-row items-center"
@@ -137,10 +138,7 @@ const Search = () => {
               />
             )}
             {showSuggestions && filteredSuggestions.length > 0 && (
-              <div
-                ref={suggestionBoxRef}
-                className="absolute flex flex-col top-10 bg-white w-full shadow-sm rounded-b-lg z-10"
-              >
+              <div className="absolute flex flex-col top-10 bg-white w-full shadow-sm rounded-b-lg z-10">
                 {filteredSuggestions.map((suggestion, index) => (
                   <p
                     key={suggestion}
