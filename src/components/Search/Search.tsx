@@ -115,7 +115,7 @@ const Search = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full flex flex-col flex-grow">
       <div className="shadow-md py-12 px-6 sm:px-12 md:px-24 lg:px-40">
         <form
           onSubmit={handleSubmit}
@@ -139,7 +139,7 @@ const Search = () => {
             {showSuggestions && filteredSuggestions.length > 0 && (
               <div
                 ref={suggestionBoxRef}
-                className="absolute flex flex-col top-10 bg-white w-full shadow-sm rounded-b-lg z-10 max-h-60 overflow-y-auto"
+                className="absolute flex flex-col top-10 bg-white w-full shadow-sm rounded-b-lg z-10"
               >
                 {filteredSuggestions.map((suggestion, index) => (
                   <p

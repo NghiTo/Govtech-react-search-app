@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Search from "./components/Search/Search";
 import NotFound from "./components/Error/NotFound";
@@ -8,18 +8,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <div className="min-h-screen">
+      <div className="min-h-screen flex flex-col">
         <Header />
-        <Outlet />
+        <Search />
       </div>
     ),
     errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "/",
-        element: <Search />,
-      },
-    ],
   },
   {
     path: "*",
