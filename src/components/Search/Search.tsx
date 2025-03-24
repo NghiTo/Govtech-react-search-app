@@ -19,7 +19,7 @@ const Search = () => {
   const [mutationError, setMutationError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending: isLoading } = useMutation({
     mutationFn: getResult,
     onSuccess: (res) => {
       setSearchResult(res);
@@ -45,13 +45,15 @@ const Search = () => {
   } = useQuery<Suggestions>({
     queryKey: ["suggestions"],
     queryFn: getSuggestion,
-    enabled: false,
+    enabled: inputField.length > 0 && !isSubmitting,
   });
 
   const executeSearch = () => {
     setShowSuggestions(false);
     setIsSubmitting(true);
-    inputRef.current?.blur();
+    setTimeout(() => {
+      inputRef.current?.blur();
+    }, 100);
     mutate();
   };
 
@@ -171,11 +173,11 @@ const Search = () => {
             className="rounded-sm cursor-pointer hover:bg-[#1c56d5] flex flex-row items-center py-3 px-8 gap-2 bg-[#1c76d5] text-white"
           >
             <FaSearch />
-            <p className="font-semibold">Search</p>
+            <span className="font-semibold">Search</span>
           </button>
         </form>
       </div>
-      {isPending && <LoadingSpinner />}
+      {isLoading && <LoadingSpinner />}
       {mutationError && (
         <div className="text-center text-red-500 mt-4">{mutationError}</div>
       )}
@@ -187,7 +189,7 @@ const Search = () => {
             : "Please check your connection."}
         </div>
       )}
-      {searchResult && !isPending && (
+      {searchResult && !isLoading && (
         <Result searchResult={searchResult} highlightKey={highlightKey} />
       )}
     </div>
