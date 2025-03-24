@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Search from "./components/Search/Search";
-import NotFound from "./components/Error/NotFound";
 import ErrorPage from "./components/Error/ErrorPage";
 
 const router = createBrowserRouter([
@@ -13,11 +12,11 @@ const router = createBrowserRouter([
         <Search />
       </div>
     ),
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorPage type="" />,
   },
   {
     path: "*",
-    element: <NotFound />,
+    element: <ErrorPage type="not-found" />,
   },
 ]);
 
