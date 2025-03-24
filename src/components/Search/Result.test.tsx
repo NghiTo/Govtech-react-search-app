@@ -26,7 +26,7 @@ describe("Result Component", () => {
   test("renders search results correctly", () => {
     render(<Result searchResult={mockSearchResult} highlightKey="mocked" />);
 
-    const titleElement = screen.getByText((content, element) => {
+    const titleElement = screen.getByText((_, element) => {
         return element?.textContent === "Mocked Title";
       });
   
