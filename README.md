@@ -15,6 +15,11 @@ This is a submission for the [GovTech's 2025 assignment](https://gist.github.com
 - 📷 [Preview](#preview)
 - 📝 [Assumptions](#assumptions)
 
+<h2 id="deployments">🔗 Deployments</h2>
+
+### (Fallback) Vercel
+ [Vercel Domain Name 🔗](https://govtech-react-search-app.vercel.app/) ( Vercel has a cold-start phase so the project may take a minute to be ready)
+
 <h2 id="project-structure">🗄️ Project Structure</h2>
 
 ```
@@ -58,6 +63,7 @@ Open your browser and go to http://localhost:5173 (vite serves the app by defaul
 ```bash
 npm vitest
 ```
+![test coverage](./docs/test-coverage.png)
 
 Test library used:
 
@@ -69,6 +75,15 @@ Test library used:
 - **Frontend**: ReactJS, Typescript
 - **Build tool**: Vite
 - **Testing tool**: React Testing Library, Jest
+
+<h2 id="preview">📷 Preview</h2>
+
+- **Web view**\
+![search input](./docs/search-typeahead.png)
+![search result](./docs/search-result.png)
+- **Mobile view**\
+![search input](./docs/search-typeahead-mobile.png)\
+![search result](./docs/search-result-mobile.png)\
 
 <h2 id="assumptions">📝 Assumptions</h2>
 

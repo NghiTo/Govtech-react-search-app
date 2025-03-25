@@ -28,11 +28,7 @@ const Search = () => {
       setMutationError(null);
     },
     onError: (error) => {
-      if (error instanceof Error) {
-        setMutationError(error.message);
-      } else {
-        setMutationError("Something went wrong. Please check your network.");
-      }
+      setMutationError(error.message);
       setIsSubmitting(false);
     },
   });
@@ -46,6 +42,7 @@ const Search = () => {
     queryKey: ["suggestions"],
     queryFn: getSuggestion,
     enabled: inputField.length > 0 && !isSubmitting,
+    retry: 0,
   });
 
   const executeSearch = () => {
@@ -134,17 +131,24 @@ const Search = () => {
               onKeyDown={handleKeyDown}
             />
             {inputField.length > 0 && (
-              <IoClose
-                className="text-[#686868] text-3xl cursor-pointer pr-4"
+              <button
+                aria-label="clear"
                 onClick={handleClear}
-              />
+                className="cursor-pointer p-2"
+              >
+                <IoClose className="text-[#686868] text-3xl pr-4" />
+              </button>
             )}
             {showSuggestions && filteredSuggestions.length > 0 && (
-              <div className="absolute flex flex-col top-10 bg-white w-full shadow-sm rounded-b-lg z-10">
+              <div
+                data-testid="suggestion-list"
+                className="absolute flex flex-col top-12 bg-white w-full shadow-sm rounded-b-lg z-10"
+              >
                 {filteredSuggestions.map((suggestion, index) => (
                   <p
                     key={suggestion}
-                    className={`text-[#686868] p-3 cursor-pointer ${
+                    data-testid={`suggestion-item-${index}`}
+                    className={`text-[#686868] p-3 outline-none cursor-pointer ${
                       selectedIndex === index
                         ? "bg-blue-200"
                         : "hover:bg-blue-100"
@@ -170,7 +174,7 @@ const Search = () => {
           </div>
           <button
             type="submit"
-            className="rounded-sm cursor-pointer hover:bg-[#1c56d5] flex flex-row items-center py-3 px-8 gap-2 bg-[#1c76d5] text-white"
+            className="rounded-sm cursor-pointer hover:bg-[#1c56d5] flex flex-row items-center py-3 px-8 max-md:px-2 gap-2 bg-[#1c76d5] text-white"
           >
             <FaSearch />
             <span className="font-semibold">Search</span>
